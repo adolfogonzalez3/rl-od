@@ -1,0 +1,14 @@
+*.png
+*.jpg
+*.gif
+__pycache__
+*.egg-info
+pics
+PygameVisualizer
+*.npy
+*.zip
+*.json
+*.csv
+*.png
+*.gif
+*.jpg
