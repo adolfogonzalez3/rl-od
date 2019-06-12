@@ -42,9 +42,21 @@ def drawRect(image, agent_x, agent_y, ind, flag, goal):
     y_1 = agent_y - 40
 
     if ind % 400 == 0 or flag and goal == 0:
-        img.save("./pics1/%d %d" % (ind, goal), "JPEG")
+        img.save("./pics1/%d %d.jpg" % (ind, goal), "JPEG")
     return np.array(img)
     
+def drawRect(image, agent_x, agent_y, ind, flag, goal):
+    #img = Image.fromarray(image, "RGB")
+    img = Image.fromarray(np.uint8((image)*255))
+    x_0 = agent_x + 40
+    x_1 = agent_x - 40
+    y_0 = agent_y + 40
+    y_1 = agent_y - 40
+
+    if ind % 400 == 0 or flag and goal == 0:
+        img.save("./pics1/%d %d.jpg" % (ind, goal))
+    return np.array(img)
+
 def cropper(image, x0, x1, y0, y1):
 
     if x0 > 225 - 80:
