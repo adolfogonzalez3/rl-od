@@ -1,5 +1,7 @@
 '''A module that contains classes and functions for using tensorflow.'''
 
+from contextlib import contextmanager
+
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (Dense, Conv2D, MaxPooling2D, Flatten,
@@ -120,7 +122,7 @@ class SessionWrapper:
     def __getattr__(self, attr):
         if attr in self.__dict__:
             return getattr(self, attr)
-        with self._session.as_default(), self._session.graph.as_default():
+        with self.with_scope():
             returned_attr = getattr(self._wrapped_model, attr)
             if callable(returned_attr):
                 return call_in_session(returned_attr, self._session)
@@ -128,3 +130,9 @@ class SessionWrapper:
 
     def __repr__(self):
         return '<SessionWrapper<{!r}>>'.format(self._wrapped_model)
+
+    @contextmanager
+    def with_scope(self):
+        '''Enter into the owned session's scope.'''
+        with self._session.as_default(), self._session.graph.as_default():
+            yield
